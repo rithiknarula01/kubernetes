@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: volume-dep
+spec:
+    replicas: 10
+    selector:
+        matchLabels:
+            app: my-pvc
+    template:
+        metadata:
+            name: mypvcpod
+            labels:
+              app: my-pvc
+        spec:
+            containers:
+                - name: mycnt
+                  image: httpd
+                  volumeMounts:
+                    - mountPath: /usr/local/apache2/htdocs
+                      name: myvol
+            volumes:
+               - name: myvol
+                 persistentVolumeClaim:
+                    claimName: pvc-test
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: my-pvc-svc
+spec:
+    type: NodePort
+    selector:
+        app: my-pvc
+    ports:
+        - targetPort: 80
+          port: 80
+          nodePort: 30070
+           
+               
+              
+

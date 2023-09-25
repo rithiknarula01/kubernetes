@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: database
+spec:
+    selector:
+        matchLabels:
+            app: backend
+    template:
+        metadata:
+            name: mydbpod
+            labels:
+                app: backend
+        spec:
+            containers:
+                - name: dbcont
+                  image: mysql
+                  envFrom:
+                      - configMapRef:
+                          name: db-config
+                  volumeMounts:
+                      - mountPath: /var/lib/mysql
+                        name: db-vol
+            volumes:
+                - name: db-vol
+                  persistentVolumeClaim:
+                        claimName: db-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: db-svc
+spec:
+    type: ClusterIP 
+    selector:
+        app: backend
+    ports:
+        - port: 3306
+
+      

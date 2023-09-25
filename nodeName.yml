@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: mypod-on-particular-nodei
+  labels:
+      app: dep
+spec: 
+   nodeName: worker02
+   containers:
+     - name: mycnt
+       image: httpd
+    

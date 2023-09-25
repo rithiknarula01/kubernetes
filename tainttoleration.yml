@@ -1,0 +1,29 @@
+
+# kubectl taint node worker02 type=large:NoSchedule
+#
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: taint-toleration-dep
+spec:
+    replicas: 5
+    selector:
+        matchLabels:
+            app: website
+    template:
+        metadata:
+            name: mypd
+            labels:
+                app: website
+        spec:
+            tolerations: 
+              - key: "type"
+                operator: "Equal"
+                value: "large"
+                effect: "NoSchedule"
+            containers:
+                - name: mycont
+                  image: httpd
+
+       

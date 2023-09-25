@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+    name: my-replicaset
+spec:
+    replicas: 5
+    selector:
+        matchLabels:
+            app: webon
+    template:
+        metadata:
+          name: podrep
+          labels:
+              app: webon
+        spec:
+            containers: 
+                - name: myrepcont
+                  image: nginx
+
+
+            

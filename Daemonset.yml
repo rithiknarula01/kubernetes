@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata: 
+  name: my-daemon-set
+  labels:
+      app: web
+spec:
+    selector:
+        matchLabels:
+            app: web
+    template:
+        metadata:
+            name: mydaemonpod
+            labels:
+                app: web
+        spec:
+             containers:
+              - name: mydem
+                image: nginx
+  
